@@ -1,0 +1,28 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+}
+
+#quiz-container {
+    display: inline-block;
+    margin-top: 50px;
+}
+
+#bird-image {
+    max-width: 300px;
+    max-height: 300px;
+}
+
+.choices {
+    display: block;
+    margin: 10px 0;
+}
+
+#next-button {
+    display: block;
+    margin: 20px 0;
+}
+
+#score-container {
+    margin-top: 30px;
+}

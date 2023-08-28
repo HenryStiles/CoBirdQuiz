@@ -1,14 +1,3 @@
-/* const quizData = [
-    {
-        image: "assets/images/bird1.jpg",
-        choices: ["Bird1", "Bird2", "Bird3", "Bird4"],
-        answer: "Bird1",
-    },
-    // Add more questions here
-]; */
-
-//const birdQuizData = require("./birdQuizData.js");
-
 let currentQuestion = 0;
 let right = 0;
 let wrong = 0;
@@ -18,6 +7,8 @@ const choicesContainer = document.getElementById("choices-container");
 const nextButton = document.getElementById("next-button");
 const rightElement = document.getElementById("right");
 const wrongElement = document.getElementById("wrong");
+console.log(rightElement);
+console.log(nextButton);
 
 function displayQuestion() {
     const question = birdQuizData[currentQuestion];
@@ -39,8 +30,10 @@ function displayQuestion() {
 
             if (correct) {
                 right++;
+                console.log("right");
             } else {
                 wrong++;
+                console.log("wrong");
             }
             rightElement.innerText = right;
             wrongElement.innerText = wrong;
@@ -101,8 +94,6 @@ for (let i = 0; i < birdQuizData.length; i++) {
         }
     }
 
-    console.log(shuffled);
-    console.log(shuffled.length)
     
     birdQuizData[i].choices = new Array(5);
     for (let j = 0; j < 5; j++) {
@@ -112,5 +103,5 @@ for (let i = 0; i < birdQuizData.length; i++) {
     let randomIndex = Math.floor(Math.random() * 5);
     birdQuizData[i].choices[randomIndex] = birdQuizData[i].answer;
 }
-console.log(birdQuizData);
+
 displayQuestion();

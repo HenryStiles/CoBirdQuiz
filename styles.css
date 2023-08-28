@@ -1,32 +1,50 @@
-body {
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 97vh;
+    width: 100%;
     font-family: Arial, sans-serif;
-    text-align: center;
 }
 
-#quiz-container {
-    display: inline-block;
-    margin-top: 50px;
+.container {
+    display: flex;
+    flex-direction: column;
 }
 
 #bird-image {
-    max-width: 300px;
-    max-height: 300px;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background-color: #f3f4f6; /* Optional background color */
+
+}
+#choices-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .choices {
-    display: block;
-    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
 }
 
-#next-button {
-    display: block;
-    margin: 20px 0;
+#choice {
+    margin: 5px;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-#right-container {
-    margin-top: 30px;
+#choice:hover {
+    background-color: #2980b9;
 }
 
-#wrong-container {
-    margin-top: 30px;
-}

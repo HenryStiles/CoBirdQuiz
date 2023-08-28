@@ -10,12 +10,14 @@
 //const birdQuizData = require("./birdQuizData.js");
 
 let currentQuestion = 0;
-let score = 0;
+let right = 0;
+let wrong = 0;
 
 const birdImage = document.getElementById("bird-image");
 const choicesContainer = document.getElementById("choices-container");
 const nextButton = document.getElementById("next-button");
-const scoreElement = document.getElementById("score");
+const rightElement = document.getElementById("right");
+const wrongElement = document.getElementById("wrong");
 
 function displayQuestion() {
     const question = birdQuizData[currentQuestion];
@@ -36,10 +38,12 @@ function displayQuestion() {
             const correct = selected.dataset.correct;
 
             if (correct) {
-                score++;
-                scoreElement.innerText = score;
+                right++;
+            } else {
+                wrong++;
             }
-
+            rightElement.innerText = right;
+            wrongElement.innerText = wrong;
             nextButton.disabled = false;
         });
 

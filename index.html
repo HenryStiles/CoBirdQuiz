@@ -2,19 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width initial-scale=1.0">
     <title>Bird Quiz</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-            <div class="image-container">
+        <h1>Colorado Area Bird Identification Quiz</h1>
+        
                 <img id="bird-image" src="" alt="Bird Image">
-            </div>
+            
             <div id="choices-container"></div>
             <button id="next-button">Next</button>
-        <div id="right-container">Right: <span id="right">0</span></div>
-        <div id="wrong-container">Not-so-right: <span id="wrong">0</span></div>
+            <div class="score-container">
+                <div id="right-container">Right: <span id="right">0</span></div>
+                <div id="wrong-container">Wrong: <span id="wrong">0</span></div>
+            </div>
         <script src="BirdQuizData.js"></script>
         <script src="script.js"></script>
     </div>

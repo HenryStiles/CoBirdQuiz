@@ -1,11 +1,8 @@
 import os
 import dump_coords
 
-# change directory to the utils directory
-os.chdir('utils')
-
 # Set the path to your image directory
-image_directory = '../assets/images'
+image_directory = './assets/images'
 
 # Filter out the list of images (only considering jpg, png, gif, and jpeg for this example).  Store complete path.
 image_files = [os.path.join(image_directory, f) for f in 
@@ -14,7 +11,7 @@ image_files = [os.path.join(image_directory, f) for f in
 # for each image file strip the extension and directory leaving just the base file name.
 image_names = [os.path.splitext(os.path.basename(f))[0] for f in image_files]
 
-with open('../BirdQuizData.js', 'w') as js_file:
+with open('./BirdQuizData.js', 'w') as js_file:
     indent1 = " " * 4
     indent2 = " " * 8
     js_file.write("const birdQuizData =\n")

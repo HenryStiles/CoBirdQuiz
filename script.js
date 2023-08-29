@@ -7,8 +7,6 @@ const choicesContainer = document.getElementById("choices-container");
 const nextButton = document.getElementById("next-button");
 const rightElement = document.getElementById("right");
 const wrongElement = document.getElementById("wrong");
-console.log(rightElement);
-console.log(nextButton);
 
 function displayQuestion() {
     const question = birdQuizData[currentQuestion];
@@ -95,8 +93,8 @@ for (let i = 0; i < birdQuizData.length; i++) {
     }
 
     
-    birdQuizData[i].choices = new Array(5);
-    for (let j = 0; j < 5; j++) {
+    birdQuizData[i].choices = [];
+    for (let j = 0; j < 10; j++) {
         birdQuizData[i].choices[j] = birdQuizData[shuffled[j]].answer;
     }
     // insert the correct answer at a random index

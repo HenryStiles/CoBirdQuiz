@@ -26,12 +26,15 @@ function displayQuestion() {
             const selected = e.target;
             const correct = selected.dataset.correct;
 
+            const allChoiceButtons = choicesContainer.querySelectorAll(".choices");
+            allChoiceButtons.forEach(button => button.disabled = true);
+
             if (correct) {
                 right++;
-                console.log("right");
+                selected.innerText += " ✅"
             } else {
                 wrong++;
-                console.log("wrong");
+                selected.innerText += " ❌"
             }
             rightElement.innerText = right;
             wrongElement.innerText = wrong;

@@ -1,6 +1,7 @@
 let currentQuestion = 0;
 let right = 0;
 let wrong = 0;
+let quizLength = 10;
 
 const birdImage = document.getElementById("bird-image");
 const choicesContainer = document.getElementById("choices-container");
@@ -48,13 +49,11 @@ function displayQuestion() {
 nextButton.addEventListener("click", () => {
     currentQuestion++;
 
-    if (currentQuestion < birdQuizData.length) {
+    if (currentQuestion < quizLength) {
         displayQuestion();
     } else {
-        alert("Quiz completed! Your score: " + score);
+        alert(`Quiz completed! Your got ${right} right of ${quizLength} questions.`);
         currentQuestion = 0;
-        score = 0;
-        scoreElement.innerText = score;
     }
 });
 

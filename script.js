@@ -2,6 +2,7 @@ let currentQuestion = 0;
 let right = 0;
 let wrong = 0;
 let quizLength = 10;
+let numChoices = 10;
 
 const birdImage = document.getElementById("bird-image");
 const choicesContainer = document.getElementById("choices-container");
@@ -10,16 +11,16 @@ const rightElement = document.getElementById("right");
 const wrongElement = document.getElementById("wrong");
 
 function displayQuestion() {
+    nextButton.disabled = true;
     const question = birdQuizData[currentQuestion];
     birdImage.src = question.image;
     choicesContainer.innerHTML = "";
-
     question.choices.forEach((choice, index) => {
         const choiceButton = document.createElement("button");
-        choiceButton.innerText = choice;
+        // remove the underscore and everything after from the choice and display that in the button.
+        choiceButton.innerText = birdQuizData[choice].answer.replace(/_.*/, "");
         choiceButton.classList.add("choices");
-
-        if (choice === question.answer) {
+        if (birdQuizData[choice].answer === question.answer) {
             choiceButton.dataset.correct = true;
         }
 
@@ -77,31 +78,31 @@ function shuffle(array) {
     return array; 
 }
 
+birdQuizData = shuffle(birdQuizData);
+
 for (let i = 0; i < birdQuizData.length; i++) {
     // create a new array
-    choices = new Array(birdQuizData.length);
-    // file array with indices of the original array
-    for (let j = 0; j < choices.length; j++) {
-        choices[j] = j;
-    }
-    // shuffle the choices array
-    let shuffled = shuffle(choices);
-
-    // remove i from the shuffled array
-    for (let j = 0; j < shuffled.length; j++) {
-        if (shuffled[j] === i) {
-            shuffled.splice(j, 1);
+    choices = [];
+    // fill array with indices of the original array
+    // TODO: this is a bit wasteful, we could select a random index from the original array.
+    // The choice array only needs to be as long as the number of choices we want to display.
+    // extract the group, it is after the first underscore and before the extension.
+    const group = birdQuizData[i].answer.match('_.*')[0]
+    for (let j = 0; j < birdQuizData.length; j++) {
+        if (j === i) {
+            continue;
+        }
+        if (choices.length === numChoices) {
+            break;
+        }
+        if (birdQuizData[j].answer.match(group)) {
+            choices.push(j);
         }
     }
-
-    
-    birdQuizData[i].choices = [];
-    for (let j = 0; j < 10; j++) {
-        birdQuizData[i].choices[j] = birdQuizData[shuffled[j]].answer;
-    }
-    // insert the correct answer at a random index
-    let randomIndex = Math.floor(Math.random() * 5);
-    birdQuizData[i].choices[randomIndex] = birdQuizData[i].answer;
+    birdQuizData[i].choices = choices;
+    // overwrite one of answers with the right answer.
+    let randomIndex = Math.floor(Math.random() * numChoices);
+    birdQuizData[i].choices[randomIndex] = i;
 }
 
 displayQuestion();

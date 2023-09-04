@@ -1,4 +1,4 @@
-import os
+import os, sys
 import dump_coords
 
 # Set the path to your image directory
@@ -11,10 +11,21 @@ image_files = [os.path.join(image_directory, f) for f in
 # for each image file strip the extension and directory leaving just the base file name.
 image_names = [os.path.splitext(os.path.basename(f))[0] for f in image_files]
 
+# each image name should have an "_" in it and the string "Group1" or "Group2" or "Group3" after the underscore.
+# if not, print a warning and exit.
+for i in image_names:
+    if not '_' in i:
+        print(f"Warning: {i} does not have an underscore in it.")
+        sys.exit(1)
+    group_name = i.split('_')[1]
+    if not group_name in ['Group1', 'Group2', 'Group3']:
+        print(f"Warning: {i} does not have a valid group name in it.")
+        sys.exit(1)
+
 with open('./BirdQuizData.js', 'w') as js_file:
     indent1 = " " * 4
     indent2 = " " * 8
-    js_file.write("const birdQuizData =\n")
+    js_file.write("var birdQuizData =\n")
     js_file.write("[\n")
     for f, i in zip(image_files, image_names):
         print(f"Processing {f}...")
@@ -40,5 +51,5 @@ with open('./BirdQuizData.js', 'w') as js_file:
     js_file.write("];\n")
 
 # write the file to screen
-with open('../BirdQuizData.js', 'r') as js_file:
+with open('./BirdQuizData.js', 'r') as js_file:
     print(js_file.read())

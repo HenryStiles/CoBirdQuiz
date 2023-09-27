@@ -13,14 +13,14 @@ const wrongElement = document.getElementById("wrong");
 function displayQuestion() {
     nextButton.disabled = true;
     const question = birdQuizData[currentQuestion];
-    birdImage.src = question.image;
+    birdImage.src = question.image_url;
     choicesContainer.innerHTML = "";
     question.choices.forEach((choice, index) => {
         const choiceButton = document.createElement("button");
         // remove the underscore and everything after from the choice and display that in the button.
-        choiceButton.innerText = birdQuizData[choice].answer.replace(/_.*/, "");
+        choiceButton.innerText = birdQuizData[choice].title;
         choiceButton.classList.add("choices");
-        if (birdQuizData[choice].answer === question.answer) {
+        if (birdQuizData[choice].title === question.title) {
             choiceButton.dataset.correct = true;
         }
 
@@ -86,8 +86,6 @@ for (let i = 0; i < birdQuizData.length; i++) {
     // fill array with indices of the original array
     // TODO: this is a bit wasteful, we could select a random index from the original array.
     // The choice array only needs to be as long as the number of choices we want to display.
-    // extract the group, it is after the first underscore and before the extension.
-    const group = birdQuizData[i].answer.match('_.*')[0]
     for (let j = 0; j < birdQuizData.length; j++) {
         if (j === i) {
             continue;
@@ -95,9 +93,7 @@ for (let i = 0; i < birdQuizData.length; i++) {
         if (choices.length === numChoices) {
             break;
         }
-        if (birdQuizData[j].answer.match(group)) {
-            choices.push(j);
-        }
+        choices.push(j);
     }
     birdQuizData[i].choices = choices;
     // overwrite one of answers with the right answer.

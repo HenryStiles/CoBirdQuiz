@@ -10,10 +10,49 @@ const nextButton = document.getElementById("next-button");
 const rightElement = document.getElementById("right");
 const wrongElement = document.getElementById("wrong");
 
+// Initialize the map
+initialLat = 39.7392; // Replace with your default or first bird's latitude
+initialLng = -104.9903; // Replace with your default or first bird's longitude
+
+var map = L.map('map').setView([initialLat, initialLng], 13); // Replace initialLat and initialLng with your default or first bird's coordinates
+
+// Load a tile layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// Sample code to set a marker
+// You can use this whenever you change the bird image or load new coordinates
+function setMarker(lat, lng) {
+    L.marker([lat, lng]).addTo(map);
+    map.setView([lat, lng], 13);
+}
+
+function addMapCaption(dateTimeText) {
+    var mapContainer = document.getElementById('mapContainer');
+    var existingCaption = mapContainer.querySelector('.map-caption');
+    // convert the dateTime Text to the format month/day/year hour:minute:second
+    dateTimeText = new Date(dateTimeText).toLocaleString();
+    // If a caption already exists, update its text content
+    if (existingCaption) {
+        existingCaption.textContent = dateTimeText;
+    } else {
+        // If no caption exists, create a new one and append it to the map's container
+        var caption = document.createElement('p');
+        caption.classList.add('map-caption');
+        caption.textContent = dateTimeText;
+        mapContainer.appendChild(caption);
+    }
+}
+
+// Example usage:
+// addMapCaption("Your dynamic caption text here");
 function displayQuestion() {
     nextButton.disabled = true;
     const question = birdQuizData[currentQuestion];
     birdImage.src = question.image_url;
+    setMarker(question.latitude, question.longitude);
+    addMapCaption(question.date_taken);
     choicesContainer.innerHTML = "";
     question.choices.forEach((choice, index) => {
         const choiceButton = document.createElement("button");

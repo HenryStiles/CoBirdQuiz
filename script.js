@@ -1,7 +1,7 @@
 let currentQuestion = 0;
 let right = 0;
 let wrong = 0;
-let quizLength = 2;
+let quizLength = 10;
 let numChoices = 10;
 
 const birdImage = document.getElementById("bird-image");

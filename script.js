@@ -114,7 +114,7 @@ nextButton.addEventListener("click", () => {
         displayQuestion();
     } else {
         nextButton.textContent = "Reload page for new questions";
-        nextButton.disabled = true;  
+        nextButton.disabled = true;
     }
 });
 
@@ -135,7 +135,7 @@ function shuffle(array) {
         array[randomIndex] = temporaryValue;
     }
 
-    return array; 
+    return array;
 }
 
 birdQuizData = shuffle(birdQuizData);

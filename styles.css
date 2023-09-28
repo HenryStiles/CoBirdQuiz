@@ -35,6 +35,10 @@ span {
     color: #333;                         /* Use a muted color for the text */
     margin-left: 5px;                   /* Add a little spacing before the number */
 }
+#map {
+    width: 1000px;
+    height: 1000px;
+}
 
 .image-map-container {
     display: flex;

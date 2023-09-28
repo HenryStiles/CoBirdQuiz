@@ -9,21 +9,18 @@
 </head>
 <body>
     <div class="container">
-        <h1>Colorado Area Bird Identification Quiz</h1>
+        <h1>Colorado Bird Identification Quiz</h1>
+            <div id="score-container"><h2 id="right">0</h2></div>
+            <!-- <div id="wrong-container">Wrong: <span id="wrong">0</span></div> -->
                 <div class="image-map-container">  
                     <img id="bird-image" src="" alt="Bird Image">
                     <div class="map-container" id="mapContainer">
-                        <div id="map" style="width: 500px; height: 500px;"></div>
+                        <div id="map" style="width: 1000px; height: 1000px;"></div>
                     </div>
                 </div>
-            
             <div id="choices-container"></div>
             <button id="next-button">Next</button>
-            <div class="score-container">
-                <div id="right-container">Right: <span id="right">0</span></div>
-                <div id="wrong-container">Wrong: <span id="wrong">0</span></div>
-            </div>
-            <div id="map" style="width: 500px; height: 500px;"></div>
+           
         <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script src="BirdQuizData.js"></script>
         <script src="script.js"></script>

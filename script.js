@@ -1,46 +1,66 @@
 let currentQuestion = 0;
 let right = 0;
 let wrong = 0;
-let quizLength = 10;
+let quizLength = 2;
 let numChoices = 10;
 
 const birdImage = document.getElementById("bird-image");
 const choicesContainer = document.getElementById("choices-container");
 const nextButton = document.getElementById("next-button");
 const rightElement = document.getElementById("right");
-const wrongElement = document.getElementById("wrong");
+rightElement.innerText = "Score: 0%";
 
 // Initialize the map
-initialLat = 39.7392; // Replace with your default or first bird's latitude
-initialLng = -104.9903; // Replace with your default or first bird's longitude
+initialLat = 39.7392; // Denver to start.
+initialLng = -104.9903;
 
-var map = L.map('map').setView([initialLat, initialLng], 13); // Replace initialLat and initialLng with your default or first bird's coordinates
+var map = L.map('map').setView([initialLat, initialLng], 13);
 
 // Load a tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Sample code to set a marker
-// You can use this whenever you change the bird image or load new coordinates
 function setMarker(lat, lng) {
     L.marker([lat, lng]).addTo(map);
     map.setView([lat, lng], 13);
 }
 
+// Add event listeners to the bird image to allow zooming
+birdImage.addEventListener('wheel', function(event) {
+    event.preventDefault();
+    var scale = 1.05;
+    var delta = event.deltaY;
+    if (delta < 0) {
+        // Zoom in
+        birdImage.style.width = birdImage.offsetWidth * scale + 'px';
+        birdImage.style.height = birdImage.offsetHeight * scale + 'px';
+    } else {
+        // Zoom out
+        birdImage.style.width = birdImage.offsetWidth / scale + 'px';
+        birdImage.style.height = birdImage.offsetHeight / scale + 'px';
+    }
+});
+
+// Create a single Date object to reuse in the addMapCaption function
+var date = new Date();
+
 function addMapCaption(dateTimeText) {
     var mapContainer = document.getElementById('mapContainer');
     var existingCaption = mapContainer.querySelector('.map-caption');
-    // convert the dateTime Text to the format month/day/year hour:minute:second
-    dateTimeText = new Date(dateTimeText).toLocaleString();
+    // Set the Date object's time to the dateTimeText value
+    date.setTime(Date.parse(dateTimeText));
+    // Convert the Date object to a localized date and time string
+    var dateTimeString = date.toLocaleString();
+    dateTimeString = `Date & Time taken: ${dateTimeString}`;
     // If a caption already exists, update its text content
     if (existingCaption) {
-        existingCaption.textContent = dateTimeText;
+        existingCaption.textContent = dateTimeString;
     } else {
         // If no caption exists, create a new one and append it to the map's container
         var caption = document.createElement('p');
         caption.classList.add('map-caption');
-        caption.textContent = dateTimeText;
+        caption.textContent = dateTimeString;
         mapContainer.appendChild(caption);
     }
 }
@@ -77,8 +97,9 @@ function displayQuestion() {
                 wrong++;
                 selected.innerText += " ❌"
             }
-            rightElement.innerText = right;
-            wrongElement.innerText = wrong;
+            // Calculate a percentage score.
+            const score = Math.round((right / (right + wrong)) * 100);
+            rightElement.innerText = `Score: ${score}%`;
             nextButton.disabled = false;
         });
 
@@ -88,12 +109,12 @@ function displayQuestion() {
 
 nextButton.addEventListener("click", () => {
     currentQuestion++;
-
     if (currentQuestion < quizLength) {
+        nextButton.textContent = "Next";
         displayQuestion();
     } else {
-        alert(`Quiz completed! Your got ${right} right of ${quizLength} questions.`);
-        currentQuestion = 0;
+        nextButton.textContent = "Reload page for new questions";
+        nextButton.disabled = true;  
     }
 });
 

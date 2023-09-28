@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 /* css reset */
 * {
     box-sizing: border-box;
@@ -15,6 +17,7 @@ body {
     font-family: Arial, sans-serif;
     display:flex;
     background: linear-gradient(to bottom, #e0eafc, #cfdef3); /* Light blue gradient */
+    font-family: 'Roboto', sans-serif;
 }
 
 .container {
@@ -25,13 +28,6 @@ body {
     width: 90%;
     height: 100%;
     max-height: 100vh;
-}
-
-/* Optional: Include a modern font from Google Fonts */
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
-
-body {
-    font-family: 'Roboto', sans-serif;  /* Use the modern font for the entire body */
 }
 
 span {

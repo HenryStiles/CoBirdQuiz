@@ -7,14 +7,16 @@ let numChoices = 10;
 const birdImage = document.getElementById("bird-image");
 const choicesContainer = document.getElementById("choices-container");
 const nextButton = document.getElementById("next-button");
-const rightElement = document.getElementById("right");
-rightElement.innerText = "Score: 0%";
+const scoreElement = document.getElementById("score");
+const captureElement = document.getElementById("capture-date");
+scoreElement.innerText = "Score: 0%";
 
 // Initialize the map
 initialLat = 39.7392; // Denver to start.
 initialLng = -104.9903;
 
-var map = L.map('map').setView([initialLat, initialLng], 13);
+const mapDiv = document.getElementById("map");
+var map = L.map(mapDiv).setView([initialLat, initialLng], 13);
 
 // Load a tile layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -42,37 +44,12 @@ birdImage.addEventListener('wheel', function(event) {
     }
 });
 
-// Create a single Date object to reuse in the addMapCaption function
-var date = new Date();
-
-function addMapCaption(dateTimeText) {
-    var mapContainer = document.getElementById('mapContainer');
-    var existingCaption = mapContainer.querySelector('.map-caption');
-    // Set the Date object's time to the dateTimeText value
-    date.setTime(Date.parse(dateTimeText));
-    // Convert the Date object to a localized date and time string
-    var dateTimeString = date.toLocaleString();
-    dateTimeString = `Date & Time taken: ${dateTimeString}`;
-    // If a caption already exists, update its text content
-    if (existingCaption) {
-        existingCaption.textContent = dateTimeString;
-    } else {
-        // If no caption exists, create a new one and append it to the map's container
-        var caption = document.createElement('p');
-        caption.classList.add('map-caption');
-        caption.textContent = dateTimeString;
-        mapContainer.appendChild(caption);
-    }
-}
-
-// Example usage:
-// addMapCaption("Your dynamic caption text here");
 function displayQuestion() {
     nextButton.disabled = true;
     const question = birdQuizData[currentQuestion];
     birdImage.src = question.image_url;
     setMarker(question.latitude, question.longitude);
-    addMapCaption(question.date_taken);
+    captureElement.innerText = `Capture Date & Time: ${question.date_taken}`;
     choicesContainer.innerHTML = "";
     question.choices.forEach((choice, index) => {
         const choiceButton = document.createElement("button");
@@ -99,7 +76,7 @@ function displayQuestion() {
             }
             // Calculate a percentage score.
             const score = Math.round((right / (right + wrong)) * 100);
-            rightElement.innerText = `Score: ${score}%`;
+            scoreElement.innerText = `Score: ${score}%`;
             nextButton.disabled = false;
         });
 

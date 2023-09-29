@@ -1,28 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bird Quiz</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <div class="container">
-        <h1>Colorado Bird Identification Quiz</h1>
-            <div id="score-container"><h2 id="right">0</h2></div>
-                <div class="image-map-container">
-                    <!-- some tools don't like img_src being null, 1x1, gif. -->
-                    <img id="bird-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Bird Picture">
-                    <div class="map-container" id="mapContainer">
-                        <div id="map" style="width: 1000px; height: 1000px;"></div>
-                    </div>
-                </div>
-            <div id="choices-container"></div>
-            <button id="next-button" type="button">Next</button>
-            <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+        <h3>Colorado Bird Identification Quiz <span id="score"></span></h3>
+        <!-- some tools don't like img_src being null, 1x1, gif. -->
+        <img id="bird-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+            alt="placeholder picture">
+        <h4 id="capture-date">placeholder</h4>
+        <div id="map"></div>
+        <div id="choices-container"></div>
+        <button id="next-button" type="button">Next</button>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
         <script src="BirdQuizData.js"></script>
         <script src="script.js"></script>
     </div>
 </body>
+
 </html>

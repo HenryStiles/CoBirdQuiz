@@ -12,8 +12,8 @@ const captureElement = document.getElementById("capture-date");
 scoreElement.innerText = "Score: 0%";
 
 // Initialize the map
-initialLat = 39.7392; // Denver to start.
-initialLng = -104.9903;
+const initialLat = 39.7392; // Denver to start.
+const initialLng = -104.9903;
 
 const mapDiv = document.getElementById("map");
 var map = L.map(mapDiv).setView([initialLat, initialLng], 13);

@@ -78,6 +78,9 @@ function displayQuestion() {
             const score = Math.round((right / (right + wrong)) * 100);
             scoreElement.innerText = `Score: ${score}%`;
             nextButton.disabled = false;
+            if (currentQuestion === quizLength - 1) {
+                nextButton.textContent = "Play Again?";
+            }
         });
 
         choicesContainer.appendChild(choiceButton);
@@ -90,8 +93,16 @@ nextButton.addEventListener("click", () => {
         nextButton.textContent = "Next";
         displayQuestion();
     } else {
-        nextButton.textContent = "Reload page for new questions";
-        nextButton.disabled = true;
+        if (nextButton.textContent === "Play Again?") {
+            currentQuestion = 0;
+            right = 0;
+            wrong = 0;
+            scoreElement.innerText = "Score: 0%";
+            nextButton.textContent = "Next";
+            nextButton.disabled = false;
+            shuffle(birdQuizData);
+            displayQuestion();
+        }
     }
 });
 

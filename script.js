@@ -53,7 +53,6 @@ function displayQuestion() {
     choicesContainer.innerHTML = "";
     question.choices.forEach((choice, index) => {
         const choiceButton = document.createElement("button");
-        // remove the underscore and everything after from the choice and display that in the button.
         choiceButton.innerText = birdQuizData[choice].title;
         choiceButton.classList.add("choices");
         if (birdQuizData[choice].title === question.title) {
@@ -73,6 +72,12 @@ function displayQuestion() {
             } else {
                 wrong++;
                 selected.innerText += " ❌"
+                // mark the correct answer as well.
+                allChoiceButtons.forEach(button => {
+                    if (button.dataset.correct) {
+                        button.innerText += " ✅"
+                    }
+                });
             }
             // Calculate a percentage score.
             const score = Math.round((right / (right + wrong)) * 100);
@@ -100,15 +105,16 @@ nextButton.addEventListener("click", () => {
             scoreElement.innerText = "Score: 0%";
             nextButton.textContent = "Next";
             nextButton.disabled = false;
-            shuffle(birdQuizData);
+            shuffleData();
+            setChoices();
             displayQuestion();
         }
     }
 });
 
 // Knuth shuffle
-function shuffle(array) {
-    let currentIndex = array.length;
+function shuffleData() {
+    let currentIndex = birdQuizData.length;
     let temporaryValue;
     let randomIndex;
 
@@ -118,35 +124,35 @@ function shuffle(array) {
         currentIndex -= 1;
 
         // Swap it with the current element
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        temporaryValue = birdQuizData[currentIndex];
+        birdQuizData[currentIndex] = birdQuizData[randomIndex];
+        birdQuizData[randomIndex] = temporaryValue;
     }
 
-    return array;
+    return birdQuizData;
 }
 
-birdQuizData = shuffle(birdQuizData);
-
-for (let i = 0; i < birdQuizData.length; i++) {
-    // create a new array
-    choices = [];
-    // fill array with indices of the original array
-    // TODO: this is a bit wasteful, we could select a random index from the original array.
-    // The choice array only needs to be as long as the number of choices we want to display.
-    for (let j = 0; j < birdQuizData.length; j++) {
-        if (j === i) {
-            continue;
+// list of unique randon integers between 0 and birdQuizData.length - 1
+function getRandomInts(num) {
+    let ints = [];
+    while (ints.length < num) {
+        let randomInt = Math.floor(Math.random() * birdQuizData.length);
+        if (!ints.includes(randomInt)) {
+            ints.push(randomInt);
         }
-        if (choices.length === numChoices) {
-            break;
-        }
-        choices.push(j);
     }
-    birdQuizData[i].choices = choices;
-    // overwrite one of answers with the right answer.
-    let randomIndex = Math.floor(Math.random() * numChoices);
-    birdQuizData[i].choices[randomIndex] = i;
+    return ints;
 }
 
+function setChoices() {
+    for (let i = 0; i < birdQuizData.length; i++) {
+        birdQuizData[i].choices = getRandomInts(numChoices);
+        // overwrite one of answers with the right answer.
+        let randomIndex = Math.floor(Math.random() * numChoices);
+        birdQuizData[i].choices[randomIndex] = i;
+    }
+}
+
+shuffleData();
+setChoices();
 displayQuestion();

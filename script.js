@@ -133,11 +133,11 @@ function shuffleData() {
 }
 
 // list of unique randon integers between 0 and birdQuizData.length - 1
-function getRandomInts(num) {
+function getRandomInts(num, exclude) {
     let ints = [];
     while (ints.length < num) {
         let randomInt = Math.floor(Math.random() * birdQuizData.length);
-        if (!ints.includes(randomInt)) {
+        if ((randomInt != exclude) && (!ints.includes(randomInt))) {
             ints.push(randomInt);
         }
     }
@@ -146,7 +146,7 @@ function getRandomInts(num) {
 
 function setChoices() {
     for (let i = 0; i < birdQuizData.length; i++) {
-        birdQuizData[i].choices = getRandomInts(numChoices);
+        birdQuizData[i].choices = getRandomInts(numChoices, i);
         // overwrite one of answers with the right answer.
         let randomIndex = Math.floor(Math.random() * numChoices);
         birdQuizData[i].choices[randomIndex] = i;

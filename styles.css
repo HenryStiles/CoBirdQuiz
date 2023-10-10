@@ -27,21 +27,10 @@ body {
     margin: 0 auto;
 }
 
-nav {
-    margin-top: 2em;
-    display: flex;
-    width: 100%;
-}
-
-nav ul {
-    display: flex;
-    margin-left: auto;
-    list-style: none;
-}
-
 nav a {
     color: #000;
     text-decoration: none;
+    font-size: .75rem;
 }
 nav a:hover{
     color: #00f;
@@ -50,14 +39,33 @@ nav a:visited {
     color: #000;
 }
 
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    display: inline;
+}
+
 h3 {
     font-size: 1.5rem;
     margin-bottom: 20px;
     margin-top: 20px;
+    text-align: center;
+    flex-grow: 1;
 }
 
 h4 {
-    font-size: 1.0rem;
+    font-size: .75rem;
     margin-bottom: 20px;
 }
 

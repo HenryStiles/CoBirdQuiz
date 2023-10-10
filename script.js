@@ -11,6 +11,18 @@ const scoreElement = document.getElementById("score");
 const captureElement = document.getElementById("capture-date");
 scoreElement.innerText = "Score: 0%";
 
+let currentSoundFile = ''; // This will hold the URL of the sound file associated with the button
+
+const audioPlayer = document.createElement('audio');
+document.body.appendChild(audioPlayer);
+
+document.getElementById('soundButton').addEventListener('click', () => {
+    if (currentSoundFile) {
+        audioPlayer.src = currentSoundFile;
+        audioPlayer.play();
+    }
+});
+
 // Initialize the map
 const initialLat = 39.7392; // Denver to start.
 const initialLng = -104.9903;
@@ -48,6 +60,10 @@ function displayQuestion() {
     nextButton.disabled = true;
     const question = birdQuizData[currentQuestion];
     birdImage.src = question.image_url;
+    if (!audioPlayer.paused) {
+        audioPlayer.pause();
+    }
+    currentSoundFile = question.sound_url;
     setMarker(question.latitude, question.longitude);
     captureElement.innerText = `Capture Date & Time: ${question.date_taken}`;
     choicesContainer.innerHTML = "";

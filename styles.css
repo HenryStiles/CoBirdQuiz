@@ -71,6 +71,19 @@ h4 {
     margin-bottom: 20px;
 }
 
+.sound-button {
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 24px;
+}
+
+.sound-button:focus {
+    outline: none;
+}
+
+
 #next-button {
     margin-top: 2em;
     margin-bottom: 2em;

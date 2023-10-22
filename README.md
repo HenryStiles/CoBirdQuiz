@@ -26,3 +26,4 @@ For details on licensing, refer to the `about.html` and `about.js` files
 ## Todo
 
 Sound only quiz.
+Choices should be more challenging (ie avoid choosing between an eagle and a sparrow)

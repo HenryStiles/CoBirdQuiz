@@ -27,3 +27,5 @@ For details on licensing, refer to the `about.html` and `about.js` files
 
 Sound only quiz.
 Choices should be more challenging (ie avoid choosing between an eagle and a sparrow)
+The program repeats endlessly.  Close the web page when you want to quit.
+

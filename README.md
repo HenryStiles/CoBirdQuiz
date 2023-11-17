@@ -27,5 +27,8 @@ For details on licensing, refer to the `about.html` and `about.js` files
 
 - Needs a "sound only quiz" mode.
 - Choices should be more challenging (ie avoid choosing between an eagle and a sparrow)
-- The program displays questions endlessly.
+
+- The program uses European names for birds (ie buzzard instead of hawk,
+  Black-necked grebe instead of Eared grebe).  The source of the sound files
+  https://xeno-canto.org/ uses European names even for sounds recorded outside Europe so maintaining 2 sets of names in the program is awkward but it can be fixed.
 

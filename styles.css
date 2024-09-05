@@ -73,12 +73,6 @@ h4 {
     height:30vh;
 }
 
-#map {
-    height: 30vh;
-    width: 30vw;
-    margin-bottom: 20px;
-}
-
 .sound-button {
     background-color: transparent;
     border: none;

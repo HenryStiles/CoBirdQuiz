@@ -23,23 +23,6 @@ document.getElementById('soundButton').addEventListener('click', () => {
     }
 });
 
-// Initialize the map
-const initialLat = 39.7392; // Denver to start.
-const initialLng = -104.9903;
-
-const mapDiv = document.getElementById("map");
-var map = L.map(mapDiv).setView([initialLat, initialLng], 13);
-
-// Load a tile layer
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-function setMarker(lat, lng) {
-    L.marker([lat, lng]).addTo(map);
-    map.setView([lat, lng], 13);
-}
-
 // Add event listeners to the bird image to allow zooming
 birdImage.addEventListener('wheel', function(event) {
     event.preventDefault();
@@ -64,7 +47,6 @@ function displayQuestion() {
         audioPlayer.pause();
     }
     currentSoundFile = question.sound_url;
-    setMarker(question.latitude, question.longitude);
     captureElement.innerText = `Capture Date & Time: ${question.date_taken}`;
     choicesContainer.innerHTML = "";
     question.choices.forEach((choice, index) => {

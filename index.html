@@ -29,6 +29,14 @@
             <i class="fas fa-volume-up"></i>
         </button>
         <audio id="audioPlayer" preload="none"></audio>
+        <div id="mode-modal" class="modal">
+            <div class="modal-content">
+                <h2>Select Quiz Mode</h2>
+                <button class="mode-btn" data-mode="both" type="button">Picture &amp; Sound</button>
+                <button class="mode-btn" data-mode="picture" type="button">Picture Only</button>
+                <button class="mode-btn" data-mode="sound" type="button">Sound Only</button>
+            </div>
+        </div>
         <div id="choices-container"></div>
         <button id="next-button" type="button">Next</button>
         <script src="BirdQuizData.js"></script>

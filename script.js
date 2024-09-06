@@ -39,9 +39,56 @@ birdImage.addEventListener('wheel', function(event) {
     }
 });
 
+// Mode selection logic
+let quizMode = null;
+const modeModal = document.getElementById('mode-modal');
+const modeButtons = document.querySelectorAll('.mode-btn');
+
+function showModeModal() {
+    modeModal.style.display = 'flex';
+}
+
+function hideModeModal() {
+    modeModal.style.display = 'none';
+}
+
+modeButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+        quizMode = this.dataset.mode;
+        hideModeModal();
+        startQuiz();
+    });
+});
+
+function startQuiz() {
+    currentQuestion = 0;
+    right = 0;
+    wrong = 0;
+    scoreElement.innerText = "Score: 0%";
+    nextButton.textContent = "Next";
+    nextButton.disabled = false;
+    shuffleData();
+    setChoices();
+    displayQuestion();
+}
+
+// Show mode modal on load
+window.addEventListener('DOMContentLoaded', showModeModal);
+
 function displayQuestion() {
     nextButton.disabled = true;
     const question = birdQuizData[currentQuestion];
+    // Show/hide image and sound button based on quizMode
+    if (quizMode === 'sound') {
+        birdImage.style.display = 'none';
+        document.getElementById('soundButton').style.display = '';
+    } else if (quizMode === 'picture') {
+        birdImage.style.display = '';
+        document.getElementById('soundButton').style.display = 'none';
+    } else {
+        birdImage.style.display = '';
+        document.getElementById('soundButton').style.display = '';
+    }
     birdImage.src = question.image_url;
     if (!audioPlayer.paused) {
         audioPlayer.pause();
@@ -97,15 +144,7 @@ nextButton.addEventListener("click", () => {
         displayQuestion();
     } else {
         if (nextButton.textContent === "Play Again?") {
-            currentQuestion = 0;
-            right = 0;
-            wrong = 0;
-            scoreElement.innerText = "Score: 0%";
-            nextButton.textContent = "Next";
-            nextButton.disabled = false;
-            shuffleData();
-            setChoices();
-            displayQuestion();
+            showModeModal();
         }
     }
 });

@@ -8,7 +8,6 @@ const birdImage = document.getElementById("bird-image");
 const choicesContainer = document.getElementById("choices-container");
 const nextButton = document.getElementById("next-button");
 const scoreElement = document.getElementById("score");
-const captureElement = document.getElementById("capture-date");
 scoreElement.innerText = "Score: 0%";
 
 let currentSoundFile = ''; // This will hold the URL of the sound file associated with the button
@@ -123,7 +122,6 @@ function displayQuestion() {
     }
     setSoundButtonState(false); // Always reset to off at new question
     currentSoundFile = question.sound_url;
-    captureElement.innerText = `Capture Date & Time: ${question.date_taken}`;
     choicesContainer.innerHTML = "";
     question.choices.forEach((choice, index) => {
         const choiceButton = document.createElement("button");

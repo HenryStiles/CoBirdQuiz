@@ -85,6 +85,11 @@ h4 {
     outline: none;
 }
 
+.sound-button.active {
+    background-color: #d1ecff;
+    border-radius: 50%;
+}
+
 
 #next-button {
     margin-top: 2em;

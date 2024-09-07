@@ -16,11 +16,39 @@ let currentSoundFile = ''; // This will hold the URL of the sound file associate
 const audioPlayer = document.createElement('audio');
 document.body.appendChild(audioPlayer);
 
-document.getElementById('soundButton').addEventListener('click', () => {
-    if (currentSoundFile) {
-        audioPlayer.src = currentSoundFile;
-        audioPlayer.play();
+const soundButton = document.getElementById('soundButton');
+const soundIcon = soundButton.querySelector('i');
+
+function setSoundButtonState(isPlaying) {
+    if (isPlaying) {
+        soundButton.classList.add('active');
+        soundIcon.classList.remove('fa-volume-up');
+        soundIcon.classList.add('fa-pause');
+        soundButton.setAttribute('aria-label', 'Pause sound');
+    } else {
+        soundButton.classList.remove('active');
+        soundIcon.classList.remove('fa-pause');
+        soundIcon.classList.add('fa-volume-up');
+        soundButton.setAttribute('aria-label', 'Play sound');
     }
+}
+
+soundButton.addEventListener('click', () => {
+    if (!currentSoundFile) return;
+    if (audioPlayer.src !== currentSoundFile) {
+        audioPlayer.src = currentSoundFile;
+    }
+    if (audioPlayer.paused) {
+        audioPlayer.play();
+        setSoundButtonState(true);
+    } else {
+        audioPlayer.pause();
+        setSoundButtonState(false);
+    }
+});
+
+audioPlayer.addEventListener('ended', () => {
+    setSoundButtonState(false);
 });
 
 // Add event listeners to the bird image to allow zooming
@@ -81,18 +109,19 @@ function displayQuestion() {
     // Show/hide image and sound button based on quizMode
     if (quizMode === 'sound') {
         birdImage.style.display = 'none';
-        document.getElementById('soundButton').style.display = '';
+        soundButton.style.display = '';
     } else if (quizMode === 'picture') {
         birdImage.style.display = '';
-        document.getElementById('soundButton').style.display = 'none';
+        soundButton.style.display = 'none';
     } else {
         birdImage.style.display = '';
-        document.getElementById('soundButton').style.display = '';
+        soundButton.style.display = '';
     }
     birdImage.src = question.image_url;
     if (!audioPlayer.paused) {
         audioPlayer.pause();
     }
+    setSoundButtonState(false); // Always reset to off at new question
     currentSoundFile = question.sound_url;
     captureElement.innerText = `Capture Date & Time: ${question.date_taken}`;
     choicesContainer.innerHTML = "";

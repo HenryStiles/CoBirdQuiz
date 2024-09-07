@@ -105,16 +105,23 @@ window.addEventListener('DOMContentLoaded', showModeModal);
 function displayQuestion() {
     nextButton.disabled = true;
     const question = birdQuizData[currentQuestion];
+    const mediaRow = document.querySelector('.media-row');
     // Show/hide image and sound button based on quizMode
     if (quizMode === 'sound') {
         birdImage.style.display = 'none';
         soundButton.style.display = '';
+        mediaRow.style.justifyContent = 'center';
+        mediaRow.style.flexDirection = 'row';
     } else if (quizMode === 'picture') {
         birdImage.style.display = '';
         soundButton.style.display = 'none';
+        mediaRow.style.justifyContent = 'center';
+        mediaRow.style.flexDirection = 'row';
     } else {
         birdImage.style.display = '';
         soundButton.style.display = '';
+        mediaRow.style.justifyContent = 'center';
+        mediaRow.style.flexDirection = 'row';
     }
     birdImage.src = question.image_url;
     if (!audioPlayer.paused) {
@@ -216,6 +223,28 @@ function setChoices() {
         birdQuizData[i].choices[randomIndex] = i;
     }
 }
+
+function validateBirdQuizData() {
+    const requiredFields = [
+        'title', 'image_url', 'latitude', 'longitude', 'date_taken', 'sound_artist', 'sound_url', 'sound_license'
+    ];
+    for (let i = 0; i < birdQuizData.length; i++) {
+        const bird = birdQuizData[i];
+        const keys = Object.keys(bird);
+        if (keys.length === 1 && keys[0] === 'title') {
+            // Valid distractor (title only)
+            continue;
+        }
+        // Must have all required fields
+        const missing = requiredFields.filter(f => !(f in bird));
+        if (missing.length > 0) {
+            throw new Error(`Invalid bird entry at index ${i} ('${bird.title || 'no title'}'): missing fields: ${missing.join(', ')}`);
+        }
+    }
+}
+
+// Validate birdQuizData on load
+validateBirdQuizData();
 
 shuffleData();
 setChoices();

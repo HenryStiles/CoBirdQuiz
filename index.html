@@ -21,12 +21,13 @@
                 </ul>
             </nav>
         </div>
-        <!-- some tools don't like img_src being null, 1x1, gif. -->
-        <img id="bird-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-            alt="placeholder picture">
-        <button type="button" id="soundButton" class="sound-button">
-            <i class="fas fa-volume-up"></i>
-        </button>
+        <div class="media-row">
+            <img id="bird-image" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+                alt="placeholder picture">
+            <button type="button" id="soundButton" class="sound-button" aria-label="Play sound">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
         <audio id="audioPlayer" preload="none"></audio>
         <div id="mode-modal" class="modal">
             <div class="modal-content">

@@ -87,6 +87,55 @@ modeButtons.forEach(btn => {
     });
 });
 
+// Helper: get indices of eligible quiz birds (not distractors)
+function getEligibleQuizIndices() {
+    return birdQuizData
+        .map((bird, idx) => {
+            const keys = Object.keys(bird);
+            if (keys.length === 1 && keys[0] === 'title') return null; // distractor
+            return idx;
+        })
+        .filter(idx => idx !== null);
+}
+
+// Override shuffleData and setChoices to use only eligible birds as questions
+function shuffleData() {
+    // Only shuffle eligible quiz birds
+    const eligibleIndices = getEligibleQuizIndices();
+    // Shuffle eligible indices
+    for (let i = eligibleIndices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [eligibleIndices[i], eligibleIndices[j]] = [eligibleIndices[j], eligibleIndices[i]];
+    }
+    // Return array of eligible indices in random order
+    return eligibleIndices;
+}
+
+function setChoices() {
+    // For each eligible quiz bird, set up choices
+    const eligibleIndices = getEligibleQuizIndices();
+    for (let i = 0; i < eligibleIndices.length; i++) {
+        const correctIdx = eligibleIndices[i];
+        // Get distractor indices (all except correct)
+        let distractorIndices = Array.from({length: birdQuizData.length}, (_, idx) => idx)
+            .filter(idx => idx !== correctIdx);
+        // Shuffle distractors
+        for (let j = distractorIndices.length - 1; j > 0; j--) {
+            const k = Math.floor(Math.random() * (j + 1));
+            [distractorIndices[j], distractorIndices[k]] = [distractorIndices[k], distractorIndices[j]];
+        }
+        // Pick numChoices-1 distractors
+        const choices = distractorIndices.slice(0, numChoices - 1);
+        // Insert correct answer at a random position
+        const insertAt = Math.floor(Math.random() * numChoices);
+        choices.splice(insertAt, 0, correctIdx);
+        birdQuizData[correctIdx].choices = choices;
+    }
+}
+
+// Store the shuffled eligible indices for quiz order
+let quizOrder = [];
+
 function startQuiz() {
     currentQuestion = 0;
     right = 0;
@@ -94,7 +143,7 @@ function startQuiz() {
     scoreElement.innerText = "Score: 0%";
     nextButton.textContent = "Next";
     nextButton.disabled = false;
-    shuffleData();
+    quizOrder = shuffleData();
     setChoices();
     displayQuestion();
 }
@@ -104,7 +153,9 @@ window.addEventListener('DOMContentLoaded', showModeModal);
 
 function displayQuestion() {
     nextButton.disabled = true;
-    const question = birdQuizData[currentQuestion];
+    // Use quizOrder for eligible questions
+    const questionIdx = quizOrder[currentQuestion];
+    const question = birdQuizData[questionIdx];
     const mediaRow = document.querySelector('.media-row');
     // Show/hide image and sound button based on quizMode
     if (quizMode === 'sound') {
@@ -182,66 +233,6 @@ nextButton.addEventListener("click", () => {
         }
     }
 });
-
-// Knuth shuffle
-function shuffleData() {
-    let currentIndex = birdQuizData.length;
-    let temporaryValue;
-    let randomIndex;
-
-    while (currentIndex !== 0) {
-        // Pick a remaining element
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-
-        // Swap it with the current element
-        temporaryValue = birdQuizData[currentIndex];
-        birdQuizData[currentIndex] = birdQuizData[randomIndex];
-        birdQuizData[randomIndex] = temporaryValue;
-    }
-
-    return birdQuizData;
-}
-
-// list of unique randon integers between 0 and birdQuizData.length - 1
-function getRandomInts(num, exclude) {
-    let ints = [];
-    while (ints.length < num) {
-        let randomInt = Math.floor(Math.random() * birdQuizData.length);
-        if ((randomInt != exclude) && (!ints.includes(randomInt))) {
-            ints.push(randomInt);
-        }
-    }
-    return ints;
-}
-
-function setChoices() {
-    for (let i = 0; i < birdQuizData.length; i++) {
-        birdQuizData[i].choices = getRandomInts(numChoices, i);
-        // overwrite one of answers with the right answer.
-        let randomIndex = Math.floor(Math.random() * numChoices);
-        birdQuizData[i].choices[randomIndex] = i;
-    }
-}
-
-function validateBirdQuizData() {
-    const requiredFields = [
-        'title', 'image_url', 'latitude', 'longitude', 'date_taken', 'sound_artist', 'sound_url', 'sound_license'
-    ];
-    for (let i = 0; i < birdQuizData.length; i++) {
-        const bird = birdQuizData[i];
-        const keys = Object.keys(bird);
-        if (keys.length === 1 && keys[0] === 'title') {
-            // Valid distractor (title only)
-            continue;
-        }
-        // Must have all required fields
-        const missing = requiredFields.filter(f => !(f in bird));
-        if (missing.length > 0) {
-            throw new Error(`Invalid bird entry at index ${i} ('${bird.title || 'no title'}'): missing fields: ${missing.join(', ')}`);
-        }
-    }
-}
 
 // Validate birdQuizData on load
 validateBirdQuizData();

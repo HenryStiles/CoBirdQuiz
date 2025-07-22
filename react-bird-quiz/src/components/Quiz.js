@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Question from './Question';
-import birdQuizData from '../birdQuizData';
+import birdQuizData from '../BirdQuizData';
 
 console.log('Quiz component loaded');
 console.log('birdQuizData:', birdQuizData);

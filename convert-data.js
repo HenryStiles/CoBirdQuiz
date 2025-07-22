@@ -25,7 +25,7 @@ try {
     }
 
     // 3. Format the data as a JavaScript object literal string for readability.
-    const formattedData = util.inspect(birdData, { depth: null, compact: false });
+    const formattedData = JSON.stringify(birdData, null, 2);
 
     // 4. Construct the new file content with an ES module export.
     const newFileContent = `// Data ported from ${path.basename(webAppDataSourcePath)}
